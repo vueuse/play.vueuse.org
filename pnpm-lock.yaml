@@ -7,7 +7,10 @@ settings:
 importers:
 
   .:
-    dependencies:
+    devDependencies:
+      '@vue/repl':
+        specifier: ^4.5.1
+        version: 4.5.1
       nuxt:
         specifier: ^3.16.2
         version: 3.16.2(@parcel/watcher@2.5.1)(db0@0.3.1)(ioredis@5.6.0)(magicast@0.3.5)(rollup@4.39.0)(terser@5.39.0)(vite@6.2.5(jiti@2.4.2)(terser@5.39.0)(yaml@2.7.1))(yaml@2.7.1)
@@ -858,6 +861,9 @@ packages:
 
   '@vue/reactivity@3.5.13':
     resolution: {integrity: sha512-NaCwtw8o48B9I6L1zl2p41OHo/2Z4wqYGGIK1Khu5T7yxrn+ATOixn/Udn2m+6kZKB/J7cuT9DbWWhRxqixACg==}
+
+  '@vue/repl@4.5.1':
+    resolution: {integrity: sha512-YYXvFue2GOrZ6EWnoA8yQVKzdCIn45+tpwJHzMof1uwrgyYAVY9ynxCsDYeAuWcpaAeylg/nybhFuqiFy2uvYA==}
 
   '@vue/runtime-core@3.5.13':
     resolution: {integrity: sha512-Fj4YRQ3Az0WTZw1sFe+QDb0aXCerigEpw418pw1HBUKFtnQHWzwojaukAs2X/c9DQz4MQ4bsXTGlcpGxU/RCIw==}
@@ -3752,6 +3758,8 @@ snapshots:
   '@vue/reactivity@3.5.13':
     dependencies:
       '@vue/shared': 3.5.13
+
+  '@vue/repl@4.5.1': {}
 
   '@vue/runtime-core@3.5.13':
     dependencies:
