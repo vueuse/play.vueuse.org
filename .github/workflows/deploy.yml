@@ -20,7 +20,7 @@ jobs:
       - name: Build
         env:
           NUXT_UI_PRO_LICENSE: ${{ secrets.NUXT_UI_PRO_LICENSE }}
-        run: NUXT_APP_BASE_URL=/vue-use-playground-new/ pnpm nuxt build --preset github_pages
+        run: pnpm nuxt build --preset github_pages
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
