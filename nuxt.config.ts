@@ -16,6 +16,11 @@ export default defineNuxtConfig({
     optimizeDeps: {
       exclude: ['@vue/repl'],
     },
+    build: {
+      rollupOptions: {
+        external: ['typescript'],
+      },
+    },
   },
   css: ['~/assets/css/main.css'],
 })

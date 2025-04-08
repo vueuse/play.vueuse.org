@@ -2,7 +2,7 @@
 import type { OutputModes } from '@vue/repl'
 import type { ShallowRef } from 'vue'
 import { mergeImportMap, Repl, useStore, useVueImportMap } from '@vue/repl'
-import CodeMirror from '@vue/repl/codemirror-editor'
+import MonacoEditor from '@vue/repl/monaco-editor'
 
 const showOutput = useRouteQuery<string, boolean>('showOutput', 'false', { transform: {
   get(value) {
@@ -79,8 +79,17 @@ productionMode.value = true
 watch(() => injectedVueVersion.value, (newVersion) => {
   vueVersion.value = newVersion
 })
+
+const colorMode = useColorMode()
+
+const theme = computed(() => {
+  if (colorMode.value === 'dark')
+    return 'dark'
+  else
+    return 'light'
+})
 </script>
 
 <template>
-  <Repl :store="store" :editor="CodeMirror" :show-compile-output="true" />
+  <Repl :store="store" :editor="MonacoEditor" :show-compile-output="true" :theme="theme" :preview-theme="true" />
 </template>

@@ -10,6 +10,9 @@ const timeago = useTimeAgo(ms)
 <template>
   <div>
     <input v-model="input" type="text" placeholder="Type anything...">
-    <div>Last changed: <span class="text-primary">{{ timeago }}</span> <span class="opacity-50 font-mono">({{ ms }})</span></div>
+    <div>
+      Last changed: <span class="text-primary">{{ timeago }}</span>
+      <span class="opacity-50 font-mono">({{ ms }})</span>
+    </div>
   </div>
 </template>
