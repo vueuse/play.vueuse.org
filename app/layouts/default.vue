@@ -40,19 +40,31 @@ const vueUseVersions = computed(() => {
 const vueUseVersionsSorted = useSorted(vueUseVersions, (a, b) => semver.compare(b, a))
 
 provide('vueVersion', vueVersion)
+
+const colorMode = useColorMode()
+
+function toggleColorMode() {
+  colorMode.value = colorMode.value === 'dark' ? 'light' : 'dark'
+}
 </script>
 
 <template>
   <UApp>
-    <UHeader>
-      <template #title>
+    <header class="flex items-center justify-around h-(--header-height)">
+      <div class="flex gap-2 items-center">
         <UIcon name="i-logos-vueuse" class="size-8" />VueUse Playground
-      </template>
-      <template #right>
+      </div>
+
+      <div class="flex gap-2 items-center">
         <USelectMenu v-model="vueUseVersion" :items="vueUseVersionsSorted" class="w-32" icon="i-logos-vueuse" :loading="loadingVersions" />
         <USelectMenu v-model="vueVersion" :items="vueVersionsSorted" class="w-32" icon="i-logos-vue" :loading="loadingVersions" />
         <UButton icon="i-lucide-refresh-ccw" size="md" color="primary" variant="soft" @click="fetchVersions" />
-        <UColorModeButton />
+        <UButton
+          color="neutral" variant="ghost"
+          :icon="colorMode.value === 'dark' ? 'i-heroicons-moon' : 'i-heroicons-sun'"
+          aria-label="color mode"
+          @click="toggleColorMode"
+        />
 
         <UTooltip text="Open on GitHub" :kbds="['meta', 'G']">
           <UButton
@@ -64,11 +76,11 @@ provide('vueVersion', vueVersion)
             aria-label="GitHub"
           />
         </UTooltip>
-      </template>
-    </UHeader>
+      </div>
+    </header>
 
-    <UMain class="h-[calc(100vh-var(--ui-header-height))]">
+    <main class="h-[calc(100vh-var(--header-height))]">
       <NuxtPage />
-    </UMain>
+    </main>
   </UApp>
 </template>

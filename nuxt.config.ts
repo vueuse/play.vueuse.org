@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-  modules: ['@nuxt/ui-pro', '@nuxt/eslint', '@vueuse/nuxt'],
+  modules: ['@nuxt/ui', '@nuxt/eslint', '@vueuse/nuxt'],
   eslint: {
     config: {
       standalone: false,

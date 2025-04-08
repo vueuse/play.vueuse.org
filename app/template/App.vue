@@ -8,7 +8,7 @@ const timeago = useTimeAgo(ms)
 </script>
 
 <template>
-  <div>
+  <div class="flex items-center justify-center w-screen h-screen">
     <input v-model="input" type="text" placeholder="Type anything...">
     <div>
       Last changed: <span class="text-primary">{{ timeago }}</span>

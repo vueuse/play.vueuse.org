@@ -88,8 +88,23 @@ const theme = computed(() => {
   else
     return 'light'
 })
+
+const previewOptions = {
+  headHTML: `
+    <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"><\/script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unocss/reset/tailwind.min.css" />
+    <script>
+      window.__unocss = {
+        rules: [],
+        presets: [],
+      }
+    <\/script>
+  `,
+}
 </script>
 
 <template>
-  <Repl :store="store" :editor="MonacoEditor" :show-compile-output="true" :theme="theme" :preview-theme="true" />
+  <client-only>
+    <Repl :store="store" :editor="MonacoEditor" :show-compile-output="true" :theme="theme" :preview-theme="true" :preview-options="previewOptions" />
+  </client-only>
 </template>
