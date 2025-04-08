@@ -44,7 +44,7 @@ provide('vueVersion', vueVersion)
 const colorMode = useColorMode()
 
 function toggleColorMode() {
-  colorMode.value = colorMode.value === 'dark' ? 'light' : 'dark'
+  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
 }
 </script>
 
@@ -61,7 +61,7 @@ function toggleColorMode() {
         <UButton icon="i-lucide-refresh-ccw" size="md" color="primary" variant="soft" @click="fetchVersions" />
         <UButton
           color="neutral" variant="ghost"
-          :icon="colorMode.value === 'dark' ? 'i-heroicons-moon' : 'i-heroicons-sun'"
+          :icon="colorMode.preference === 'dark' ? 'i-heroicons-moon' : 'i-heroicons-sun'"
           aria-label="color mode"
           @click="toggleColorMode"
         />
