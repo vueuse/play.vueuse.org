@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@vue/repl':
+    hash: 86c4015d157b491d78e4451a9c1b5983fe12ccdbe24d19e6434195d9007dc15c
+    path: patches/@vue__repl.patch
+
 importers:
 
   .:
@@ -25,7 +30,7 @@ importers:
         version: 7.7.0
       '@vue/repl':
         specifier: ^4.5.1
-        version: 4.5.1
+        version: 4.5.1(patch_hash=86c4015d157b491d78e4451a9c1b5983fe12ccdbe24d19e6434195d9007dc15c)
       '@vueuse/nuxt':
         specifier: 13.0.0
         version: 13.0.0(magicast@0.3.5)(nuxt@3.16.2(@parcel/watcher@2.5.1)(db0@0.3.1)(eslint@9.23.0(jiti@2.4.2))(ioredis@5.6.0)(lightningcss@1.29.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.39.0)(terser@5.39.0)(typescript@5.8.2)(vite@6.2.5(jiti@2.4.2)(lightningcss@1.29.2)(terser@5.39.0)(yaml@2.7.1))(vue-tsc@2.2.8(typescript@5.8.2))(yaml@2.7.1))(vue@3.5.13(typescript@5.8.2))
@@ -6326,7 +6331,7 @@ snapshots:
     dependencies:
       '@vue/shared': 3.5.13
 
-  '@vue/repl@4.5.1': {}
+  '@vue/repl@4.5.1(patch_hash=86c4015d157b491d78e4451a9c1b5983fe12ccdbe24d19e6434195d9007dc15c)': {}
 
   '@vue/runtime-core@3.5.13':
     dependencies:

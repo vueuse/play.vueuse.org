@@ -1,0 +1,2 @@
+patchedDependencies:
+  '@vue/repl': patches/@vue__repl.patch

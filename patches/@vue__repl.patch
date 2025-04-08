@@ -1,0 +1,22 @@
+diff --git a/dist/monaco-editor.js b/dist/monaco-editor.js
+index c37798518110282820e81a8667383d83839b560d..2d151ca8ff009fe77c8d135855979eabea131763 100644
+--- a/dist/monaco-editor.js
++++ b/dist/monaco-editor.js
+@@ -178015,7 +178015,7 @@ async function registerProviders(worker, language, getSyncUris, languages) {
+ 
+ function WorkerWrapper$1(options) {
+           return new Worker(
+-            ""+new URL('assets/editor.worker-KaUq7_iC.js', import.meta.url).href+"",
++            ""+new URL('./assets/editor.worker-KaUq7_iC.js', import.meta.url).href+"",
+             {
+         type: "module",
+         name: options?.name
+@@ -178034,7 +178034,7 @@ function getOrCreateModel(uri, lang, value) {
+ 
+ function WorkerWrapper(options) {
+           return new Worker(
+-            ""+new URL('assets/vue.worker-C169KAy9.js', import.meta.url).href+"",
++            ""+new URL('./assets/vue.worker-C169KAy9.js', import.meta.url).href+"",
+             {
+         type: "module",
+         name: options?.name

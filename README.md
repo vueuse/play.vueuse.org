@@ -9,11 +9,9 @@ pnpm dev
 
 ## ToDos
 
-- styling
-- Monaco Editor
+- Monaco Editor -> assets build time issue
 
 ### Ideas
 
 - prs as vueuse versions
-- unocss/tailwind/styles for preview
 - transfer to vueuse org
