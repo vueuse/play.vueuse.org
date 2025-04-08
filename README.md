@@ -1,17 +1,21 @@
-# VueUse Playground rewrite
+# VueUse Playground
 
-## Setup
+<p align="center">
+  <a href="https://cdn.jsdelivr.net/gh/antfu/static/sponsors.svg">
+    <img src='https://cdn.jsdelivr.net/gh/antfu/static/sponsors.svg'>
+  </a>
+</p>
+
+
+## Development
 
 ```
 pnpm i
 pnpm dev
 ```
 
-## ToDos
 
-- Monaco Editor -> assets build time issue
-
-### Ideas
+## Ideas
 
 - prs as vueuse versions
-- transfer to vueuse org
+- dont pin inital versions to latest. use pin exact latest version
