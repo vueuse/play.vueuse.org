@@ -3,6 +3,7 @@ import type { OutputModes } from '@vue/repl'
 import type { ShallowRef } from 'vue'
 import { mergeImportMap, Repl, useStore, useVueImportMap } from '@vue/repl'
 import MonacoEditor from '@vue/repl/monaco-editor'
+import semver from 'semver'
 
 const showOutput = useRouteQuery<string, boolean>('showOutput', 'false', {
   transform: stringToBooleanTransformer,
@@ -47,7 +48,7 @@ function generateVueUseImportCDNs() {
 
 const importMap = computed(() => {
   return mergeImportMap(builtinImportMap.value, {
-    imports: Object.fromEntries([...generateVueUseImportCDNs(), ['vue-demi', 'https://cdn.jsdelivr.net/npm/vue-demi@0.14.10/lib/index.mjs']]),
+    imports: Object.fromEntries([...generateVueUseImportCDNs(), ...(semver.valid(vueuseVersion.value) && semver.major(vueuseVersion.value) <= 11 ? [['vue-demi', 'https://cdn.jsdelivr.net/npm/vue-demi@0.14.10/lib/index.mjs']] : [])]),
   })
 })
 
