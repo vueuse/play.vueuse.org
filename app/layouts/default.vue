@@ -2,8 +2,7 @@
 import { getVersionsBatch } from 'fast-npm-meta'
 import semver from 'semver'
 
-// todo: type
-const versions = useSessionStorage<any>('versions', [])
+const versions = useSessionStorage<any[]>('versions', [])
 
 const loadingVersions = shallowRef(false)
 
