@@ -76,7 +76,7 @@ const prod = useRouteQuery<string, boolean>('prod', 'false', {
           @click="toggleColorMode"
         />
 
-        <UTooltip text="Open on GitHub" :kbds="['meta', 'G']">
+        <UTooltip text="Open on GitHub">
           <UButton
             color="neutral"
             variant="ghost"
