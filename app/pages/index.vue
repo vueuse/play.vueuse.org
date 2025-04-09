@@ -4,18 +4,19 @@ import type { ShallowRef } from 'vue'
 import { mergeImportMap, Repl, useStore, useVueImportMap } from '@vue/repl'
 import MonacoEditor from '@vue/repl/monaco-editor'
 
-const showOutput = useRouteQuery<string, boolean>('showOutput', 'false', { transform: {
-  get(value) {
-    if (value === 'false' || value === '0')
-      return false
-    else return Boolean(value)
-  },
-  set(value) {
-    return String(value)
-  },
-} })
+const showOutput = useRouteQuery<string, boolean>('showOutput', 'false', {
+  transform: stringToBooleanTransformer,
+})
 
 const outputMode = useRouteQuery<OutputModes, OutputModes>('outputMode', 'preview')
+
+const ssr = useRouteQuery<string, boolean>('ssr', 'false', {
+  transform: stringToBooleanTransformer,
+})
+
+const prod = useRouteQuery<string, boolean>('prod', 'false', {
+  transform: stringToBooleanTransformer,
+})
 
 const hash = useRouteHash(undefined, { mode: 'replace' })
 
@@ -73,12 +74,13 @@ injectedVueVersion.value = vueVersion.value ?? 'latest'
 // persist state to URL hash
 watchEffect(() => hash.value = store.serialize())
 
-// production mode is enabled
-productionMode.value = true
-
 watch(() => injectedVueVersion.value, (newVersion) => {
   vueVersion.value = newVersion
 })
+
+watch(() => prod.value, (newProd) => {
+  productionMode.value = newProd
+}, { immediate: true })
 
 const colorMode = useColorMode()
 
@@ -105,6 +107,9 @@ const previewOptions = {
 
 <template>
   <client-only>
-    <Repl :store="store" :editor="MonacoEditor" :show-compile-output="true" :theme="theme" :preview-theme="true" :preview-options="previewOptions" />
+    <Repl
+      :store="store" :editor="MonacoEditor" :show-compile-output="true" :theme="theme" :preview-theme="true"
+      :preview-options="previewOptions" :ssr="ssr"
+    />
   </client-only>
 </template>
