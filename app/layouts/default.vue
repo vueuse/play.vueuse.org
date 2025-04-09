@@ -46,6 +46,14 @@ const colorMode = useColorMode()
 function toggleColorMode() {
   colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
 }
+
+const ssr = useRouteQuery<string, boolean>('ssr', 'false', {
+  transform: stringToBooleanTransformer,
+})
+
+const prod = useRouteQuery<string, boolean>('prod', 'false', {
+  transform: stringToBooleanTransformer,
+})
 </script>
 
 <template>
@@ -56,6 +64,8 @@ function toggleColorMode() {
       </div>
 
       <div class="flex gap-2 items-center">
+        <USwitch v-model="ssr" label="SSR" />
+        <USwitch v-model="prod" label="Prod" />
         <USelectMenu v-model="vueUseVersion" :items="vueUseVersionsSorted" class="w-32" icon="i-logos-vueuse" :loading="loadingVersions" />
         <USelectMenu v-model="vueVersion" :items="vueVersionsSorted" class="w-32" icon="i-logos-vue" :loading="loadingVersions" />
         <UButton icon="i-lucide-refresh-ccw" size="md" color="primary" variant="soft" @click="fetchVersions" />
