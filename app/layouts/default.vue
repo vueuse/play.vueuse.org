@@ -27,7 +27,7 @@ const vueUseVersion = useRouteQuery('vueuse', 'latest')
 
 const vueUseVersions = computed(() => {
   const vueuse = versions.value.find(p => p.name === '@vueuse/core')
-  if (vueuse?.error)
+  if (vueuse?.error || error.value)
     return []
   return vueuse?.versions ?? []
 })
