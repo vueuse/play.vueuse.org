@@ -53,26 +53,7 @@ const importMap = computed(() => {
 
 const { template } = useTemplate()
 
-const store = useStore(
-  {
-    // pre-set import map
-    builtinImportMap: importMap,
-    vueVersion,
-    // starts on the output pane (mobile only) if the URL has a showOutput query
-    showOutput,
-    // starts on a different tab on the output pane if the URL has a outputMode query
-    // and default to the "preview" tab
-    outputMode,
-    template,
-  },
-  // initialize repl with previously serialized state
-  hash.value ?? undefined,
-)
-
 injectedVueVersion.value = vueVersion.value ?? 'latest'
-
-// persist state to URL hash
-watchEffect(() => hash.value = store.serialize())
 
 watch(() => injectedVueVersion.value, (newVersion) => {
   vueVersion.value = newVersion
@@ -103,6 +84,25 @@ const previewOptions = {
     <\/script>
   `,
 }
+
+const store = useStore(
+  {
+    // pre-set import map
+    builtinImportMap: importMap,
+    vueVersion,
+    // starts on the output pane (mobile only) if the URL has a showOutput query
+    showOutput,
+    // starts on a different tab on the output pane if the URL has a outputMode query
+    // and default to the "preview" tab
+    outputMode,
+    template,
+  },
+  // initialize repl with previously serialized state
+  hash.value ?? undefined,
+)
+
+// persist state to URL hash
+watchEffect(() => hash.value = store.serialize())
 </script>
 
 <template>
