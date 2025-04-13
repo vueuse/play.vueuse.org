@@ -54,6 +54,17 @@ const ssr = useRouteQuery<string, boolean>('ssr', 'false', {
 const prod = useRouteQuery<string, boolean>('prod', 'false', {
   transform: stringToBooleanTransformer,
 })
+
+const currentHref = shallowRef(location.href)
+const route = useRoute()
+
+watch(() => route.fullPath, () => {
+  currentHref.value = location.href
+})
+
+const issueLink = computed(() => {
+  return `https://github.com/vueuse/vueuse/issues/new?template=bug_report.yml&reproduction=${encodeURIComponent(currentHref.value)}`
+})
 </script>
 
 <template>
@@ -86,6 +97,16 @@ const prod = useRouteQuery<string, boolean>('prod', 'false', {
             aria-label="GitHub"
           />
         </UTooltip>
+        <UTooltip text="Report an issue on GitHub">
+          <UButton
+            color="neutral"
+            variant="ghost"
+            :to="issueLink"
+            target="_blank"
+            icon="i-pajamas-issue-new"
+            aria-label="Issue via GitHub"
+          />
+        </UTooltip>
       </div>
       <div class="lg:hidden">
         <USlideover title="Settings">
@@ -101,6 +122,16 @@ const prod = useRouteQuery<string, boolean>('prod', 'false', {
                 <USelectMenu v-model="vueVersion" :items="vueVersionsSorted" class="w-32" icon="i-logos-vue" :loading="loadingVersions" />
                 <UButton icon="i-lucide-refresh-ccw" size="md" color="primary" variant="soft" @click="fetchVersions" />
               </div>
+              <UButton
+                color="neutral"
+                variant="ghost"
+                :to="issueLink"
+                target="_blank"
+                icon="i-pajamas-issue-new"
+                aria-label="Issue via GitHub"
+              >
+                Report an issue on GitHub
+              </UButton>
             </section>
           </template>
         </USlideover>
