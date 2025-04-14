@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { OutputModes } from '@vue/repl'
+import type { OutputModes, SFCOptions } from '@vue/repl'
 import type { ShallowRef } from 'vue'
 import { mergeImportMap, Repl, useStore, useVueImportMap } from '@vue/repl'
 import MonacoEditor from '@vue/repl/monaco-editor'
@@ -73,6 +73,16 @@ const theme = computed(() => {
 })
 
 const previewOptions = {
+  customCode: {
+    importCode: `import { initCustomFormatter } from 'vue'`,
+    useCode: `if (window.devtoolsFormatters) {
+    const index = window.devtoolsFormatters.findIndex((v) => v.__vue_custom_formatter)
+    window.devtoolsFormatters.splice(index, 1)
+    initCustomFormatter()
+  } else {
+    initCustomFormatter()
+  }`,
+  },
   headHTML: `
     <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"><\/script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unocss/reset/tailwind.min.css" />
@@ -85,6 +95,27 @@ const previewOptions = {
   `,
 }
 
+// enable experimental features
+const sfcOptions = computed<SFCOptions>(
+  () => ({
+    script: {
+      inlineTemplate: productionMode.value,
+      isProd: productionMode.value,
+      propsDestructure: true,
+    },
+    style: {
+      isProd: productionMode.value,
+    },
+    template: {
+      isProd: productionMode.value,
+      compilerOptions: {
+        isCustomElement: (tag: string) =>
+          tag.startsWith('custom-'),
+      },
+    },
+  }),
+)
+
 const store = useStore(
   {
     // pre-set import map
@@ -96,6 +127,7 @@ const store = useStore(
     // and default to the "preview" tab
     outputMode,
     template,
+    sfcOptions,
   },
   // initialize repl with previously serialized state
   hash.value ?? undefined,
