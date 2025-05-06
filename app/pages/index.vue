@@ -47,7 +47,7 @@ function generateVueUseImportCDNs() {
 
 const importMap = computed(() => {
   return mergeImportMap(builtinImportMap.value, {
-    imports: Object.fromEntries([...generateVueUseImportCDNs(), ['vue-demi', 'https://cdn.jsdelivr.net/npm/vue-demi@0.14.10/lib/index.mjs']]),
+    imports: Object.fromEntries([...generateVueUseImportCDNs(), ['vue-demi', 'https://cdn.jsdelivr.net/npm/vue-demi@0.14.10/lib/index.mjs'], ['yaml', 'https://cdn.jsdelivr.net/npm/yaml@2.7.1/+esm']]),
   })
 })
 
