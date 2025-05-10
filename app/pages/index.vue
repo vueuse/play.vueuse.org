@@ -46,11 +46,21 @@ function generateVueUseImportCDNs() {
 
 const importMap = computed(() => {
   return mergeImportMap(builtinImportMap.value, {
-    imports: Object.fromEntries([...generateVueUseImportCDNs(), ['vue-demi', 'https://cdn.jsdelivr.net/npm/vue-demi@0.14.10/lib/index.mjs']]),
+    imports: Object.fromEntries([...generateVueUseImportCDNs(), ['vue-demi', 'https://cdn.jsdelivr.net/npm/vue-demi@0.14.10/lib/index.mjs'], ['yaml', 'https://cdn.jsdelivr.net/npm/yaml@2.7.1/+esm']]),
   })
 })
 
 const { template } = useTemplate()
+
+injectedVueVersion.value = vueVersion.value ?? 'latest'
+
+watch(() => injectedVueVersion.value, (newVersion) => {
+  vueVersion.value = newVersion
+})
+
+watch(() => prod.value, (newProd) => {
+  productionMode.value = newProd
+}, { immediate: true })
 
 const store = useStore(
   {
@@ -68,18 +78,8 @@ const store = useStore(
   hash.value ?? undefined,
 )
 
-injectedVueVersion.value = vueVersion.value ?? 'latest'
-
 // persist state to URL hash
 watchEffect(() => hash.value = store.serialize())
-
-watch(() => injectedVueVersion.value, (newVersion) => {
-  vueVersion.value = newVersion
-})
-
-watch(() => prod.value, (newProd) => {
-  productionMode.value = newProd
-}, { immediate: true })
 </script>
 
 <template>
