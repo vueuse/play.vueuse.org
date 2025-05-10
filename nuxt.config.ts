@@ -1,8 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  ssr: false,
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
+  sourcemap: false,
   future: {
     compatibilityVersion: 4,
   },
@@ -20,6 +20,9 @@ export default defineNuxtConfig({
       rollupOptions: {
         external: ['typescript'],
       },
+    },
+    ssr: {
+      noExternal: ['@vue/repl'],
     },
   },
   css: ['~/assets/css/main.css'],
