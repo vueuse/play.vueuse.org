@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     },
     build: {
       rollupOptions: {
-        external: ['typescript', '@vue/compiler-sfc'],
+        external: ['typescript'],
       },
     },
     ssr: {
