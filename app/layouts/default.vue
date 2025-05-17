@@ -49,6 +49,17 @@ const ssr = useRouteQuery<string, boolean>('ssr', 'false', {
 const prod = useRouteQuery<string, boolean>('prod', 'false', {
   transform: stringToBooleanTransformer,
 })
+
+const currentHref = shallowRef(location.href)
+const route = useRoute()
+
+watch(() => route.fullPath, () => {
+  currentHref.value = location.href
+})
+
+const issueLink = computed(() => {
+  return `https://github.com/vueuse/vueuse/issues/new?template=bug_report.yml&reproduction=${encodeURIComponent(currentHref.value)}`
+})
 </script>
 
 <template>
@@ -58,7 +69,7 @@ const prod = useRouteQuery<string, boolean>('prod', 'false', {
         <UIcon name="i-logos-vueuse" class="size-8" />VueUse Playground
       </div>
 
-      <div class="flex gap-2 items-center">
+      <div class="hidden lg:flex gap-2 items-center">
         <USwitch v-model="ssr" label="SSR" />
         <USwitch v-model="prod" label="Prod" />
         <USelectMenu v-model="vueUseVersion" :items="vueUseVersionsSorted" class="w-32" icon="i-logos-vueuse" :loading="loadingVersions" />
@@ -72,6 +83,60 @@ const prod = useRouteQuery<string, boolean>('prod', 'false', {
         />
 
         <UTooltip text="Open on GitHub">
+          <UButton
+            color="neutral"
+            variant="ghost"
+            to="https://github.com/vueuse"
+            target="_blank"
+            icon="i-simple-icons-github"
+            aria-label="GitHub"
+          />
+        </UTooltip>
+        <UTooltip text="Report an issue on GitHub">
+          <UButton
+            color="neutral"
+            variant="ghost"
+            :to="issueLink"
+            target="_blank"
+            icon="i-pajamas-issue-new"
+            aria-label="Issue via GitHub"
+          />
+        </UTooltip>
+      </div>
+      <div class="lg:hidden">
+        <USlideover title="Settings">
+          <UButton icon="i-lucide-menu" color="neutral" variant="outline" />
+          <template #body>
+            <section class="flex flex-col gap-2 items-center justify-center">
+              <div class="flex gap-2">
+                <USwitch v-model="ssr" label="SSR" />
+                <USwitch v-model="prod" label="Prod" />
+              </div>
+              <div class="flex gap-2">
+                <USelectMenu v-model="vueUseVersion" :items="vueUseVersionsSorted" class="w-32" icon="i-logos-vueuse" :loading="loadingVersions" />
+                <USelectMenu v-model="vueVersion" :items="vueVersionsSorted" class="w-32" icon="i-logos-vue" :loading="loadingVersions" />
+                <UButton icon="i-lucide-refresh-ccw" size="md" color="primary" variant="soft" @click="fetchVersions" />
+              </div>
+              <UButton
+                color="neutral"
+                variant="ghost"
+                :to="issueLink"
+                target="_blank"
+                icon="i-pajamas-issue-new"
+                aria-label="Issue via GitHub"
+              >
+                Report an issue on GitHub
+              </UButton>
+            </section>
+          </template>
+        </USlideover>
+        <UTooltip text="Open on GitHub">
+          <UButton
+            color="neutral" variant="ghost"
+            :icon="colorMode.preference === 'dark' ? 'i-heroicons-moon' : 'i-heroicons-sun'"
+            aria-label="color mode"
+            @click="toggleColorMode"
+          />
           <UButton
             color="neutral"
             variant="ghost"
