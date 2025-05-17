@@ -2,26 +2,21 @@
 import { getVersionsBatch } from 'fast-npm-meta'
 import semver from 'semver'
 
-// todo: type
-const versions = useSessionStorage<any>('versions', [])
+const { data: versions, status, error, refresh: fetchVersions } = await useAsyncData(
+  'versions',
+  async () => getVersionsBatch(['@vueuse/core', 'vue']),
+  { default: () => ([]) },
+)
 
-const loadingVersions = shallowRef(false)
-
-async function fetchVersions() {
-  loadingVersions.value = true
-  versions.value = await getVersionsBatch(['@vueuse/core', 'vue'])
-  loadingVersions.value = false
-}
-
-if (!versions.value.length) {
-  fetchVersions()
-}
+const loadingVersions = computed(() => {
+  return status.value === 'pending'
+})
 
 const vueVersion = shallowRef()
 
 const vueVersions = computed(() => {
   const vue = versions.value.find(p => p.name === 'vue')
-  if (vue?.error)
+  if (vue?.error || error.value)
     return []
   return vue?.versions ?? []
 })
@@ -32,7 +27,7 @@ const vueUseVersion = useRouteQuery('vueuse', 'latest')
 
 const vueUseVersions = computed(() => {
   const vueuse = versions.value.find(p => p.name === '@vueuse/core')
-  if (vueuse?.error)
+  if (vueuse?.error || error.value)
     return []
   return vueuse?.versions ?? []
 })
@@ -68,7 +63,7 @@ const prod = useRouteQuery<string, boolean>('prod', 'false', {
         <USwitch v-model="prod" label="Prod" />
         <USelectMenu v-model="vueUseVersion" :items="vueUseVersionsSorted" class="w-32" icon="i-logos-vueuse" :loading="loadingVersions" />
         <USelectMenu v-model="vueVersion" :items="vueVersionsSorted" class="w-32" icon="i-logos-vue" :loading="loadingVersions" />
-        <UButton icon="i-lucide-refresh-ccw" size="md" color="primary" variant="soft" @click="fetchVersions" />
+        <UButton icon="i-lucide-refresh-ccw" size="md" color="primary" variant="soft" @click="() => fetchVersions()" />
         <UButton
           color="neutral" variant="ghost"
           :icon="colorMode.preference === 'dark' ? 'i-heroicons-moon' : 'i-heroicons-sun'"

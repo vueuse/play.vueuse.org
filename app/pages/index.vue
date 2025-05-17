@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import type { OutputModes } from '@vue/repl'
 import type { ShallowRef } from 'vue'
-import { mergeImportMap, Repl, useStore, useVueImportMap } from '@vue/repl'
-import MonacoEditor from '@vue/repl/monaco-editor'
+import { mergeImportMap, useStore, useVueImportMap } from '@vue/repl'
 
 const showOutput = useRouteQuery<string, boolean>('showOutput', 'false', {
   transform: stringToBooleanTransformer,
@@ -63,28 +62,6 @@ watch(() => prod.value, (newProd) => {
   productionMode.value = newProd
 }, { immediate: true })
 
-const colorMode = useColorMode()
-
-const theme = computed(() => {
-  if (colorMode.value === 'dark')
-    return 'dark'
-  else
-    return 'light'
-})
-
-const previewOptions = {
-  headHTML: `
-    <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"><\/script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unocss/reset/tailwind.min.css" />
-    <script>
-      window.__unocss = {
-        rules: [],
-        presets: [],
-      }
-    <\/script>
-  `,
-}
-
 const store = useStore(
   {
     // pre-set import map
@@ -106,10 +83,12 @@ watchEffect(() => hash.value = store.serialize())
 </script>
 
 <template>
-  <client-only>
-    <Repl
-      :store="store" :editor="MonacoEditor" :show-compile-output="true" :theme="theme" :preview-theme="true"
-      :preview-options="previewOptions" :ssr="ssr"
-    />
-  </client-only>
+  <ClientOnly>
+    <ReplEditor :ssr="ssr" :store="store" />
+    <template #fallback>
+      <div class="flex w-full h-full justify-center items-center px-12">
+        <UProgress animation="swing" />
+      </div>
+    </template>
+  </ClientOnly>
 </template>
