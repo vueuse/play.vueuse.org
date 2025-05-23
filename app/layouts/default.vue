@@ -49,6 +49,23 @@ const ssr = useRouteQuery<string, boolean>('ssr', 'false', {
 const prod = useRouteQuery<string, boolean>('prod', 'false', {
   transform: stringToBooleanTransformer,
 })
+
+const toast = useToast()
+const { copy } = useClipboard()
+
+async function copyLink(e: MouseEvent) {
+  if (e.metaKey) {
+    // hidden logic for going to local debug from playground.vueuse.org
+    window.location.href = `http://localhost:3000/${window.location.hash}`
+    return
+  }
+  copy(location.href)
+  toast.add({
+    title: 'Sharable URL has been copied to clipboard.',
+    icon: 'i-heroicons-check-circle',
+    color: 'success',
+  })
+}
 </script>
 
 <template>
@@ -70,6 +87,15 @@ const prod = useRouteQuery<string, boolean>('prod', 'false', {
           aria-label="color mode"
           @click="toggleColorMode"
         />
+
+        <UTooltip text="Copy sharable URL">
+          <UButton
+            color="neutral"
+            variant="ghost"
+            icon="i-carbon-share"
+            @click="copyLink"
+          />
+        </UTooltip>
 
         <UTooltip text="Open on GitHub">
           <UButton
